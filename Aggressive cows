@@ -1,0 +1,51 @@
+/***** Aggressive cows *****/
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+bool can_place(int a[], int n, int cow, int distance)
+{
+    int co_ord=a[0], count=1;
+    for(int i=1; i<n; i++)
+    {
+        if(a[i] - co_ord >= distance)
+        {
+            count++;
+            co_ord = a[i];
+        }
+        if(count == cow)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+int aggressive_cows(int a[], int n, int c)
+{
+    int low = 1;
+    int high = a[n-1]-a[0], res=-1;
+    while(low <= high)
+    {
+        int mid = (low + high) >> 1;
+        if(can_place(a, n, c, mid))
+        {
+            res = mid;
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return res;
+}
+
+int main()
+{
+    int a[] = {1,2,4,8,9}, n=5, c=3;
+    
+    cout<<aggressive_cows(a, n, c)<<endl;
+    return 0;
+}
